@@ -2,58 +2,42 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginUserRequest;
+use App\Http\Requests\RegiterUserRequest;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class AuthController extends Controller
 {
     public function register_view()
     {
-        if (auth()->check()) {
-            return redirect()->route('profile');
-        }
+        $this->isLogged();
 
         return Inertia::render('Auth/Register');
     }
 
-    public function register(Request $request)
+    public function register(RegiterUserRequest $request): RedirectResponse
     {
-        $request->validate([
-            'username' => 'required',
-            'email' => 'email|required',
-            'password' => 'required|min:6'
-        ]);
-
-        $newUser = new User();
-        $newUser->name = $request->username;
-        $newUser->email = $request->email;
-        $newUser->password = $request->password;
-
-        $newUser->save();
+        $newUser = User::create($request->validated());
 
         auth()->login($newUser);
 
         return redirect()->route('profile');
     }
 
-    public function login_view()
+    public function login_view(): Response
     {
-        if (auth()->check()) {
-            return redirect()->route('profile');
-        }
+        $this->isLogged();
 
         return Inertia::render('Auth/Login');
     }
 
-    public function login(Request $request)
+    public function login(LoginUserRequest $request): RedirectResponse 
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:6'
-        ]);
-
-        $findUser = User::where('email', $request->email)->first();
+        $findUser = User::where('email', $request->validated('email'))->first();
 
         if (!$findUser) return back()->withErrors(['user' => 'No se encontro el Email']); 
 
@@ -67,24 +51,20 @@ class AuthController extends Controller
         return redirect()->route('profile');
     }
 
-    public function logout()
+    public function logout(): RedirectResponse
     {
         auth()->logout();
         return redirect()->route('auth.login');
     }
 
-    public function profile()
+    /**
+     * Nos aseguramos que si el usuario existe entonces redirija
+     * @return ?RedirectResponse
+     */
+    private function isLogged(): void
     {
-        $user = auth()->user();
-        $profile = $user->profile;
-
-        if (!isset($profile)) {
-            return redirect()->route('profile.make');
+        if (auth()->check()) {
+            redirect()->route('profile');
         }
-
-        return Inertia::render('Auth/Profile', [
-            'user' => $user,
-            'profile' => $profile
-        ]);
     }
 }
