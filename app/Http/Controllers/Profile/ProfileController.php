@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Inertia\Inertia;
+use App\Http\Controllers\Controller;
 
 class ProfileController extends Controller
 {

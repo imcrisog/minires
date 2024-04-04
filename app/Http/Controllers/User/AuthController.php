@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
@@ -59,7 +60,7 @@ class AuthController extends Controller
 
     /**
      * Nos aseguramos que si el usuario existe entonces redirija
-     * @return ?RedirectResponse
+     * @return void
      */
     private function isLogged(): void
     {
