@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 
 class ProfileController extends Controller
 {
-    public function profile()
+    public function index()
     {
         $user = auth()->user();
         $profile = $user->profile;
@@ -24,7 +24,7 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function make_profile()
+    public function show()
     {
         $profile = auth()->user()->profile;
 
@@ -35,7 +35,7 @@ class ProfileController extends Controller
         return Inertia::render("Profile/Form");
     }
 
-    public function store_profile(Request $request) 
+    public function store(Request $request) 
     {
         $user = User::find(auth()->user()->id);
         $profile = $user->profile;
