@@ -18,4 +18,9 @@ class CourseController extends Controller
             'courses' => $courses
         ]);
     }
+
+    public function store()
+    {
+        
+    }
 }
