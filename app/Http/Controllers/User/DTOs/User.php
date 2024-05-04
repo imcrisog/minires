@@ -13,8 +13,7 @@ class User {
         public readonly ?int $id,
         public readonly string $name,
         public readonly string $email
-    )
-    {}
+    ) {}
 
     public static function fromRequest(Request $request, ?int $userId): self
     {
