@@ -19,8 +19,7 @@ class CourseController extends Controller
         ]);
     }
 
-    public function store()
-    {
-        
-    }
+    public function show(Course $courseId) {}
+
+    public function store() {}
 }
