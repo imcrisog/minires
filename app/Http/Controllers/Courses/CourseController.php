@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Courses\DTOs\Course as DTOsCourse;
+
 
 class CourseController extends Controller
 {
@@ -19,7 +21,13 @@ class CourseController extends Controller
         ]);
     }
 
-    public function show(Course $courseId) {}
+    public function show(Course $course) 
+    {
 
-    public function store() {}
+    }
+
+    public function store(Request $request, int $courseId) 
+    {
+        
+    }
 }
