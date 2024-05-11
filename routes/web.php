@@ -1,15 +1,15 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CourseController;
+use App\Http\Controllers\User\AuthController;
+use App\Http\Controllers\Profile\ProfileController;
+use App\Http\Controllers\Courses\CourseController;
+use App\Http\Controllers\DownloaderController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| Web Routes 
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
@@ -19,10 +19,8 @@ use Illuminate\Support\Facades\Storage;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/test', [HomeController::class, 'test'])->name('test');
 
-// Auth routes
-// login register logout 
+// Auth and users routes
 
 Route::get('/register', [AuthController::class, 'register_view'])->name('auth.register');
 Route::post('/register', [AuthController::class, 'register'])->name('auth.store.register');
@@ -35,17 +33,18 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::get('/forgot', [AuthController::class, 'forgot_view'])->name('auth.forgot');
 Route::post('/forgot', [AuthController::class, 'forgot'])->name('auth.store.forgot');
 
-Route::get('/profile', [AuthController::class, 'profile'])->middleware('auth')->name('profile');
-Route::get('/create/profile', [UserController::class, 'make_profile'])->middleware('auth')->name('profile.make');
-Route::post('/create/profile', [UserController::class, 'store_profile'])->middleware('auth')->name('profile.store');
+// Profile routes
+
+Route::get('/profile', [ProfileController::class, 'index'])->middleware('auth')->name('profile');
+Route::get('/create/profile', [ProfileController::class, 'show'])->middleware('auth')->name('profile.make');
+Route::post('/create/profile', [ProfileController::class, 'store'])->middleware('auth')->name('profile.store');
+
+// Courses routes
 
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
 Route::get('/create/course', [CourseController::class, 'create'])->name('courses.create');
 Route::post('/create/courses', [CourseController::class, 'store'])->name('courses.store');
 
-Route::get('files/{part}/{filename}', function (string $part, string $filename) {
-    $path = $part . '/' . $filename;
-    $full_path = Storage::path($path);
+// Download routes
 
-    return response()->download($full_path);
-})->name('files.index');
+Route::get('files/{part}/{filename}', DownloaderController::class)->name('files.index');

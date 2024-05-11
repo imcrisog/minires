@@ -51,4 +51,9 @@ class Course extends Model
     {
         return $this->hasMany('App\Models\Comment');
     }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }

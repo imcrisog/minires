@@ -1,18 +1,32 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Profile;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\User;
 use Inertia\Inertia;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class UserController extends Controller {
-
-    public function make_profile()
+class ProfileController extends Controller
+{
+    public function index()
     {
         $user = auth()->user();
         $profile = $user->profile;
+
+        if (!isset($profile)) {
+            return redirect()->route('profile.make');
+        }
+
+        return Inertia::render('Auth/Profile', [
+            'user' => $user,
+            'profile' => $profile
+        ]);
+    }
+
+    public function show()
+    {
+        $profile = auth()->user()->profile;
 
         if (isset($profile)) {
             return redirect()->route('profile');
@@ -21,7 +35,7 @@ class UserController extends Controller {
         return Inertia::render("Profile/Form");
     }
 
-    public function store_profile(Request $request) 
+    public function store(Request $request) 
     {
         $user = User::find(auth()->user()->id);
         $profile = $user->profile;
@@ -45,5 +59,4 @@ class UserController extends Controller {
         return dd($newProfile);
 
     }
-
 }

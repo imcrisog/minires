@@ -44,4 +44,9 @@ class Profile extends Model
     {
         return $this->belongsToMany('App\Models\Badge');
     }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }

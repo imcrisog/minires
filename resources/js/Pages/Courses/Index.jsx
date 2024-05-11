@@ -1,6 +1,6 @@
 import { Head, usePage, Link } from '@inertiajs/react'
 
-import Navbar from "../../Components/Navbar";
+import Navbar from "../../Design-system/Navbar";
 
 export default function Index() {
 

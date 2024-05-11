@@ -1,6 +1,6 @@
 import { Link, Head, usePage } from '@inertiajs/react'
 
-import Navbar from "../../Components/Navbar";
+import Navbar from "../../Design-system/Navbar";
 
 export default function Profile() {
 
