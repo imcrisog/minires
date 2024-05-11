@@ -16,12 +16,18 @@ class Course {
         public readonly string $description,
         public readonly string $slug,
         public readonly int $price, 
-        public readonly string $banner
+        public readonly string $banner,
+        // public readonly Profile $profile,
+        // public readonly array $students
     ) {}
 
     public static function toEloquent(self $course, int $profileId): ModelsCourse
     {
         $newCourse = new ModelsCourse();
+
+        if ($course->id) {
+            $newCourse = ModelsCourse::query()->findOrFail($course->id);
+        }
 
         $newCourse->name = $course->name;
         $newCourse->description = $course->description;
@@ -34,7 +40,7 @@ class Course {
         return $newCourse;
     }
 
-    public static function fromEloquent(ModelsCourse $course): self
+    public static function fromEloquent(ModelsCourse $course, Profile $profile): self
     {
         return new self(
             id: $course->id,
