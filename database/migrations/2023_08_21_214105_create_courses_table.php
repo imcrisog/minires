@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('likes');
             $table->integer('views');
             
-            $table->unsignedBigInteger('profile_id')->nullable();
+            $table->unsignedBigInteger('profile_id')->unique()->nullable();
             $table->foreign('profile_id')->references('id')->on('profiles')->onDelete('set null')->onUpdate('cascade');
             $table->timestamps();
         });
