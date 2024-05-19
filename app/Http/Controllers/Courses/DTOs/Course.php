@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Courses\DTOs;
 
 use app\Http\Controllers\Profile\DTOs\Profile;
 use App\Models\Course as ModelsCourse;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class Course {
@@ -17,8 +18,8 @@ class Course {
         public readonly string $slug,
         public readonly int $price, 
         public readonly string $banner,
-        // public readonly Profile $profile,
-        // public readonly array $students
+        public readonly ?Object $owner,
+        public readonly ?array $students
     ) {}
 
     public static function toEloquent(self $course, int $profileId): ModelsCourse
@@ -40,7 +41,7 @@ class Course {
         return $newCourse;
     }
 
-    public static function fromEloquent(ModelsCourse $course, Profile $profile, array $students): self
+    public static function fromEloquent(ModelsCourse $course): self
     {
         return new self(
             id: $course->id,
@@ -48,7 +49,9 @@ class Course {
             description: $course->description,
             slug: $course->slug,
             price: $course->price,
-            banner: $course->banner
+            banner: $course->banner,
+            owner: $course->profile,
+            students: (array) $course->profiles
         );
     }
 
@@ -60,7 +63,9 @@ class Course {
             description: $request->description,
             slug: $request->slug,
             price: $request->price,
-            banner: $request->banner
+            banner: $request->banner,
+            owner: null,
+            students: null
         );
     }
 
@@ -74,7 +79,9 @@ class Course {
             'description' => $this->description,
             'slug' => $this->slug,
             'price' => $this->price,
-            'banner' => $this->banner
+            'banner' => $this->banner,
+            'owner' => $this->owner,
+            'students' => $this->students
         ];
     }
 

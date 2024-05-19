@@ -15,15 +15,10 @@ class CourseSeeder extends Seeder
      */
     public function run(): void
     {
-        Course::factory()
-        ->for(
-            Profile::factory()->forUser()
-        )
-        ->hasAttached(
-            Profile::factory()->forUser()->count(2),
-            ['progress' => 0, 'lastVideo' => 'a'],
-        )
-        ->count(2)
-        ->create();
+        $profile = Profile::factory()->create();
+        $students = Profile::factory()->count(3)->create();
+        $course = Course::factory()->create()->profile()->associate($profile);
+        $course->profiles()->attach($students, ['progress' => 0, 'lastVideo' => 'asd']);
+        $course->save();
     }
 }
