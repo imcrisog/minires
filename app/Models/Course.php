@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Course extends Model
 {
@@ -32,7 +33,7 @@ class Course extends Model
         return $this->belongsTo('App\Models\Profile');
     }
 
-    public function profiles()
+    public function profiles(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\Profile');
     }
@@ -55,5 +56,10 @@ class Course extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function scopeProfileNStudents($query)
+    {
+        return $query->with('profile')->with('profiles');
     }
 }

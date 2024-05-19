@@ -40,7 +40,7 @@ class Course {
         return $newCourse;
     }
 
-    public static function fromEloquent(ModelsCourse $course, Profile $profile): self
+    public static function fromEloquent(ModelsCourse $course, Profile $profile, array $students): self
     {
         return new self(
             id: $course->id,
@@ -63,6 +63,8 @@ class Course {
             banner: $request->banner
         );
     }
+
+    // public static function fromArray(array $data): self {}
 
     public function toArray(): array
     {
