@@ -14,7 +14,7 @@ class CourseController extends Controller
 {
     public function index()
     {
-        $courses = Course::with('profile')->with('profiles')->get();
+        $courses = Course::profileNStudents()->get();
 
         return dd($courses);
 
