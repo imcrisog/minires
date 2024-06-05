@@ -55,7 +55,7 @@ class Course {
         );
     }
 
-    public static function fromRequest(Request $request, ?int $courseId): self
+    public static function fromRequest(Request $request, ?int $courseId = null): self
     {
         return new self(
             id: $courseId,

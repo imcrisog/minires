@@ -6,7 +6,7 @@ export default function Index() {
 
     const { courses } = usePage().props
 
-    console.log(courses)
+    console.log(courses[0])
 
     return (
         <>
@@ -23,7 +23,7 @@ export default function Index() {
                         return (
                             <div key={index}>
                                 <h1> {course.name} </h1>
-                                <span> Creado por  </span>
+                                <span> Creado por {course.owner.name} </span>
                             </div>
                         )
                     })

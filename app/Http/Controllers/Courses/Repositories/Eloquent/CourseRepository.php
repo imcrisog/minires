@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Courses\Repositories\Eloquent;
 use App\Http\Controllers\Courses\DTOs\Course as DTOsCourse;
 use App\Http\Controllers\Courses\Interfaces\CourseRepositoryInterface;
 use App\Models\Course;
+use Illuminate\Http\Request;
 
 class CourseRepository implements CourseRepositoryInterface
 {
@@ -19,6 +20,13 @@ class CourseRepository implements CourseRepositoryInterface
         }
 
         return $courses;
+    }
+
+    public function create($request): DTOsCourse
+    {
+        $course = DTOsCourse::fromRequest($request);
+
+        return $course;
     }
 
 }

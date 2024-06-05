@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Courses\Interfaces\CourseRepositoryInterface;
 use App\Http\Requests\StoreCourseRequest;
+use Inertia\Response;
 
 class CourseController extends Controller
 {
@@ -14,7 +15,7 @@ class CourseController extends Controller
         private CourseRepositoryInterface $repository
     ) {}
 
-    public function index()
+    public function index(): Response
     {
         $courses = $this->repository->index();
 
@@ -30,6 +31,8 @@ class CourseController extends Controller
 
     public function store(StoreCourseRequest $request, int $courseId) 
     {
-        
+        $course =  $this->repository->create($request);
+
+        return dd($course);
     }
 }
